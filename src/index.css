@@ -5,6 +5,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --verde1:#9ce892;
+  --verde2:#2d7724;
+  --verde3:#78db6b;
+
+  --azul1:#b2b9f7;
+  --azul2:#121287;
+  --azul3:#909bed;
+
+  --marrom1:#dde669;;
+  --marrom2:#717f21;
+  --marrom3:#c6ce52;
+
+  --amarelo1:#e298bc;
+  --amarelo2:#8e3761;
+  --amarelo3:#d17ba4;
 }
 
 code {
