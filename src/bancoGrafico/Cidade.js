@@ -22,10 +22,8 @@ export default function Casa({context,item}){
     },[])
     return(
     <Tudo>
-        <Topo id={id} icone={'location'} colors={['var(--verde2)','var(--verde3)']}/>
-        
-        <main>
-            <Opcao icone={'language'} titulo={nome}/>
+         <main>
+            <Topo id={id} nome={nome} icone={'location'} colors={['var(--verde2)','var(--verde3)']}/>
         </main>
         <aside>
             {objetos.map(item=><Objeto colors={['var(--marrom1)','var(--marrom2)','var(--marrom3)',]} item={item} icone={'home'}/>)}

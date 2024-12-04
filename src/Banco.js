@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import Tabela from './Tabela'
 export default function Banco({context}){
-    const {cidades,pessoas,casas,sofas,tvs}=context
+    const {cidades,pessoas,casas,carros}=context
     return(
     <Tudo>
         <Holder>
@@ -11,10 +11,7 @@ export default function Banco({context}){
         </Holder>
         <Holder>
             <Tabela nome={'casas'} campos={[['idCidade',1],['idPessoa',1],['valor',3]]} lista={casas}/>
-        </Holder>
-        <Holder>
-            <Tabela nome={'sofas'} campos={[['idCasa',1],['valor',3]]} lista={sofas}/>
-            <Tabela nome={'tvs'} campos={[['idCasa',1],['valor',3]]} lista={tvs}/>
+            <Tabela nome={'carros'} campos={[['idPessoa',1],['valor',3]]} lista={carros}/>
         </Holder>
     </Tudo>
 )}
@@ -23,6 +20,7 @@ display:flex;margin:10px 0 10px 0;
 justify-content:space-evenly
 `
 const Tudo=styled.div`
+div{align-items:center}
 padding:10px 0 10px 0;
 flex-direction:column;
 height:calc(100% - 30px);width:calc(100% - 165px);

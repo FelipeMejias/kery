@@ -4,9 +4,10 @@ import Opcao from './w_Opcao'
 import Topo from './w_Topo'
 import Objeto from './w_Objeto'
 export default function Casa({context,item}){
-    const {cidades,pessoas,casas,sofas,tvs}=context
+    const {cidades,pessoas,casas,carros,tvs}=context
     const {id,nome}=item
-    const [objetos,setObjetos]=useState([])
+    const [casasEncontradas,setCasas]=useState([])
+    const [carrosEncontradas,setCarros]=useState([])
     function buscarNomeCidade(ide){
         for(let l of cidades){
             if(l.id==ide)return(l.nome)
@@ -14,21 +15,23 @@ export default function Casa({context,item}){
     }
     useEffect(()=>{
         const newList=[]
-        for(let l of casas){
-            if(l.idPessoa==id)newList.push({id:l.id,idCidade:l.idCidade,nome:buscarNomeCidade(l.idCidade)})
+        for(let c of casas){
+            if(c.idPessoa==id)newList.push({...c,nome:buscarNomeCidade(c.idCidade)})
         }
-        
-        setObjetos(newList)
+        setCasas(newList)
+
+        const nl=[]
+        for(let c of carros){
+            if(c.idPessoa==id)nl.push(c)
+        }
+        setCarros(nl)
     },[])
     return(
     <Tudo>
-        <Topo id={id} icone={'man'} colors={['var(--azul2)','var(--azul3)']} />
-        
-        <main>
-            <Opcao icone={'language'} titulo={nome}/>
-        </main>
+        <Topo id={id} nome={nome} icone={'man'} colors={['var(--azul2)','var(--azul3)']} />
         <aside>
-            {objetos.map(item=><Objeto colors={['var(--marrom1)','var(--marrom2)','var(--marrom3)',]} item={item} icone={'home'}/>)}
+            {casasEncontradas.map(item=><Objeto colors={['var(--marrom1)','var(--marrom2)','var(--marrom3)',]} item={item} icone={'home'}/>)}
+            {carrosEncontradas.map(item=><Objeto colors={['var(--marrom1)','var(--marrom2)','var(--marrom3)',]} item={item} icone={'car'}/>)}
         </aside>
     </Tudo>
 )}

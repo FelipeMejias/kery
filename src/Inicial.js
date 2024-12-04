@@ -2,63 +2,66 @@ import styled from 'styled-components'
 import Menu from './Menu'
 import { useEffect, useState } from 'react'
 import Banco from './Banco'
-import { adicionar } from './Acoes'
+import { criacaoInicial } from './Acoes'
 import BancoGrafico from './bancoGrafico/__BancoGrafico'
-import Add from './Add'
-function criar(tabela,items){
-    const lista=[]
-    let id=1
-    
-    for(let item of items){
-        let objeto
-        switch(tabela){
-    
-            case 'cidades':objeto={nome:item};break;
-            case 'pessoas':objeto={nome:item};break;
-            case 'casas':objeto={idCidade:item[0],idPessoa:item[1],valor:item[2]};break;
-            case 'sofas':objeto={idCasa:item[0],valor:item[1]};break;
-            case 'tvs':objeto={idCasa:item[0],valor:item[1]};break;
-        }
-        lista.push({id,...objeto})
-        id++
-    }    
-    for(let item in items){
-        
-    }
-    console.log(lista)
-    return lista
+import Query from './Query'
 
-}
 export default function Inicial(){
     const [cidades,setCidades]=useState([])
     const [pessoas,setPessoas]=useState([])
     const [casas,setCasas]=useState([])
+    const [carros,setCarros]=useState([])
 
-    const [sofas,setSofas]=useState([])
-    const [tvs,setTvs]=useState([])
-    const [fase,setFase]=useState(0)
+    const [pagina,setPagina]=useState(0)
+    const [choseG,setChoseG]=useState(2)
+    const [choseQ,setChoseQ]=useState(1)
+
+    const referencia={
+        cidades:{
+            estado:cidades,
+            setar:setCidades,
+            campos:[['nome',2],]
+        },
+        pessoas:{
+            estado:pessoas,
+            setar:setPessoas,
+            campos:[['nome',2],]
+        },
+        casas:{
+            estado:casas,
+            setar:setCasas,
+            campos:[['idCidade',1],['idPessoa',1],['valor',3]]
+        },
+        carros:{
+            estado:carros,
+            setar:setCarros,
+            campos:[['idPessoa',1],['valor',3]]
+        }
+    }
     const context={
+        referencia,
+
         cidades,setCidades,
         pessoas,setPessoas,
         casas,setCasas,
-        sofas,setSofas,
-        tvs,setTvs,
+        carros,setCarros,
 
-        fase,setFase
+        pagina,setPagina,
+        choseG,setChoseG,
+        choseQ,setChoseQ,
     }
     useEffect(()=>{
-        setCidades(criar('cidades',['Rio de Janeiro','São Paulo']))
-        setPessoas(criar('pessoas',['Maria','Pedro','Amanda']))
-        setCasas(criar('casas',[[1,1,100],[2,3,300],[1,2,150],[2,1,200],[1,3,250]]))
-        setSofas(criar('sofas',[[3,25],[4,20],[4,30],[1,25],[5,20]]))
-        setTvs(criar('tvs',[[4,5],[1,15],[1,10],[5,15]]))
+        setCidades(criacaoInicial('cidades',[['Rio de Janeiro'],['São Paulo']],referencia))
+        setPessoas(criacaoInicial('pessoas',[['Maria'],['Pedro'],['Amanda']],referencia))
+        setCasas(criacaoInicial('casas',[[1,1,100],[2,3,300],[1,2,150],[2,1,200],[1,3,250]],referencia))
+        setCarros(criacaoInicial('carros',[[2,60],[3,35],[2,15]],referencia))
     },[])
     return(
     <Tudo>
-        <Menu setFase={setFase}/>
-        {fase==1?<Banco context={context}/>:
-        fase==21||fase==22||fase==23?<BancoGrafico context={context}/>:
-        fase==3?<Add context={context}/>:
+        <Menu setPagina={setPagina}/>
+        {pagina==1?<Banco context={context}/>:
+        pagina==2?<BancoGrafico context={context}/>:
+        pagina==3?<Query context={context}/>:
         <></>}
 
     </Tudo>
@@ -68,5 +71,5 @@ display:flex;align-items:center;
 justify-content:space-between;
 padding-right:15px;box-sizing:border-box;
 height:100vh;width:100vw;background-color:#8fc9b0;
-div{display:flex;align-items:center;box-sizing:border-box;}
+div{display:flex;;box-sizing:border-box;}
 `

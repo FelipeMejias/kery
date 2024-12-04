@@ -3,7 +3,7 @@ import { useState } from 'react'
 export default function Opcao({icone,titulo,color}){
     return(
     <Tudo color={color}>
-        <ion-icon name={icone}/>
+        {/*<ion-icon name={icone}/>*/}
         <p>{titulo}</p>
     </Tudo>
 )}
