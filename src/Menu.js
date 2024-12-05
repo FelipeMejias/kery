@@ -15,7 +15,7 @@ export default function Menu({setPagina}){
             <ion-icon name={'play'}/>
                 Querys
             </Botao>
-            <Botao onClick={()=>setPagina(3)}  cor={'#497c65'}>
+            <Botao onClick={()=>setPagina(3)} style={{color:'gray'}}  cor={'#c9c9c9'}>
             <ion-icon name={'reader'}/>
                 Histórico
             </Botao>
