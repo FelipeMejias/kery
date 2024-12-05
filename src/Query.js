@@ -82,7 +82,7 @@ export default function Query({context}){
                 t+=' WHERE '+q.filtrar
             }
         }else{
-            t='DELETE FROM '
+            t='DELETE FROM '+q.tabela
             if(q.filtrar){
                 t+=' WHERE '+q.filtrar
             }
