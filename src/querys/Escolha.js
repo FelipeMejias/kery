@@ -2,9 +2,14 @@ import styled from 'styled-components'
 import { useState } from 'react'
 export default function Escolha({titulo,opcoes,q,setQ,cor,aviso}){
     const comInput=typeof opcoes=='string'
+    function tit(p){
+        let r=p[0].toUpperCase()
+        for(let k=1;k<p.length;k++)r+=p[k]
+        return r
+    }
     return(
     <Tudo>
-        <h1 style={cor?{backgroundColor:cor}:{}}>{titulo}</h1>
+        <h1 style={cor?{backgroundColor:'#064166'}:{}}>{cor?titulo:tit(titulo)}</h1>
         <Holder wid={comInput?'200px':'calc( 100% - 100px)'}>{comInput?
         <input value={q[titulo]} onChange={(e)=>setQ({...q,[titulo]:e.currentTarget.value})} placeholder={opcoes}/>
         :opcoes.map(item=><Botao onClick={()=>setQ({...q,[titulo]:item})} selec={q[titulo]==item} >

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import Tabela from './Tabela'
+import Tabela from './banco/Tabela'
 import Escolha from './querys/Escolha';
 import { querySelect } from './Acoes';
 const fraseSemLinhas='Não existem linhas de tabela com essas condições'
@@ -9,14 +9,17 @@ export default function Query({context}){
     const {cidades,pessoas,casas,carros,
         setChoseQ,choseQ,referencia
     }=context
-    const [texto, setTexto] = useState('SELECT * FROM casas');
+    const tabelas=['cidades','pessoas','casas','carros',]
+    const [q,setQ]=useState({tabela:'pessoas'})
     const [campos,setCampos]=useState([['nome',2],])
+
+    const [texto, setTexto] = useState('');
     const [lista,setLista]=useState([])
     const [alterando,setAlterando]=useState(true)
     const [erro,setErro]=useState('')
     const [acerto,setAcerto]=useState('')
-    const [q,setQ]=useState({tabela:'pessoas'})
-    const tabelas=['cidades','pessoas','casas','carros',]
+    
+    
     const [copiado, setCopiado] = useState(false);
     function copiarTexto(){
         navigator.clipboard.writeText(texto).then(() => {
@@ -110,12 +113,12 @@ export default function Query({context}){
             :choseQ==2?
                 <Alterar>
                     <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={['cidades','pessoas','casas','carros']} />
-                    {campos.map(campo=><Escolha cor={'#064166'}  titulo={campo[0]} q={q} setQ={setQ} opcoes={''} />)}
+                    {campos.map(campo=><Escolha cor={true}  titulo={campo[0]} q={q} setQ={setQ} opcoes={''} />)}
                 </Alterar>
             :choseQ==3?
                 <Alterar>
                     <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={['cidades','pessoas','casas','carros']} />
-                    {campos.map(campo=><Escolha cor={'#064166'}  titulo={campo[0]} q={q} setQ={setQ} opcoes={''} />)}
+                    {campos.map(campo=><Escolha cor={true}  titulo={campo[0]} q={q} setQ={setQ} opcoes={''} />)}
                     <Escolha aviso={fraseAviso+'alteradas'} titulo={'filtrar'} q={q} setQ={setQ} opcoes={'Condição do filtro'} />
                 </Alterar>
             :
@@ -182,7 +185,7 @@ margin:0;font-size:20px;
 
 const Tudo=styled.div`position:relative;
 padding:10px 0 10px 0;
-height:calc(100% - 30px);width:calc(100% - 165px);
+height:calc(100% - 30px);
 background-color:#cee5db;border-radius:15px;
 flex-direction:column;
 justify-content:space-between;

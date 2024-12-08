@@ -3,14 +3,21 @@ export default function Menu({setPagina}){
     return(
     <Tudo>
         <Acoes>
+            <h1>Banco:</h1>
+            <h2>{'Casas'}</h2>
+            <Botao wid={true} onClick={()=>setPagina(1)} cor={'#497c65'}>
+                Alterar Banco
+            </Botao>
+        </Acoes>
+        <Acoes>
             <Botao onClick={()=>setPagina(1)} cor={'#497c65'}>
             <ion-icon name={'grid'}/>
-                Banco
+                Tabelas
             </Botao>
-            <Botao onClick={()=>setPagina(2)} cor={'#497c65'}>
+            {/*<Botao onClick={()=>setPagina(2)} cor={'#497c65'}>
             <ion-icon name={'eye'}/>
                 Vizualizar
-            </Botao>
+            </Botao>*/}
             <Botao onClick={()=>setPagina(3)}  cor={'#497c65'}>
             <ion-icon name={'play'}/>
                 Querys
@@ -23,16 +30,19 @@ export default function Menu({setPagina}){
     </Tudo>
 )}
 const Acoes=styled.div`
-flex-direction:column;height:420px;
+flex-direction:column;
 justify-content:space-between;
+h1{margin:0;font-size:20px;font-weight:500;}
+h2{margin:0;font-size:20px;font-weight:700;}
 `
 const Botao=styled.div`cursor:pointer;
 color:white;font-size:18px;
 flex-direction:column;
 justify-content:center;line-height:18px;
 background-color:${props=>props.cor};
-width:120px;height:95px;
+width:120px;height:${p=>p.wid?55:95}px;
 border-radius:15px;
+margin:10px 0 10px 0;
 ion-icon{font-size:30px;margin-bottom:5px;}
 `
 

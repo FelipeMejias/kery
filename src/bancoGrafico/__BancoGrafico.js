@@ -10,8 +10,8 @@ export default function BancoGrafico({context}){
     return(
     <Tudo>
         <Holder>
-            <Botao selec={choseG==1} onClick={()=>setChoseG(1)}>cidades</Botao>
-            <Botao selec={choseG==2} onClick={()=>setChoseG(2)}>pessoas</Botao>
+            <Botao selec={choseG==1} onClick={()=>setChoseG(1)}>Cidades</Botao>
+            <Botao selec={choseG==2} onClick={()=>setChoseG(2)}>Pessoas</Botao>
         </Holder>
         <Quadro>
             {choseG==1?cidades.map(item=><Cidade item={item} context={context}/>):<></>}

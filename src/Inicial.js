@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import Menu from './Menu'
+import Menu from './menu/Menu'
 import { useEffect, useState } from 'react'
-import Banco from './Banco'
+import Banco from './banco/Banco'
 import { criacaoInicial } from './Acoes'
 import BancoGrafico from './bancoGrafico/__BancoGrafico'
 import Query from './Query'
@@ -59,13 +59,11 @@ export default function Inicial(){
     return(
     <Tudo>
         <Menu setPagina={setPagina}/>
-        {pagina==1?<Banco context={context}/>:
-        pagina==2?<BancoGrafico context={context}/>:
-        pagina==3?<Query context={context}/>:
-        <></>}
-
+        <Banco context={context}/>
+        <Query context={context}/>
     </Tudo>
 )}
+//pagina==2?<BancoGrafico context={context}/>:
 const Tudo=styled.div`
 display:flex;align-items:center;
 justify-content:space-between;

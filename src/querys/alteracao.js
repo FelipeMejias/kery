@@ -1,4 +1,4 @@
-import { determinarCondicao, separarFiltro } from "./utils"
+import { checarInvalidadeColuna, determinarCondicao, separarFiltro } from "./utils"
 
 export function alteracao(context,q){
     const {referencia}=context
@@ -14,8 +14,16 @@ export function alteracao(context,q){
             if(determinarCondicao(obj,inicio,sinal,final))
                 for(let campo of campos){
                 if(q[campo[0]]&&objeto[campo[0]]!=q[campo[0]]){
-                    objeto[campo[0]]=q[campo[0]]
-                    alterou=true
+                    for(let campo of campos){
+                        if(!q[campo[0]])continue
+                        const erro=checarInvalidadeColuna(referencia,campo,q)
+                        if(!erro){
+                            alterou=true
+                            objeto[campo[0]]=q[campo[0]]
+                        }else{
+                            return {erro}
+                        }
+                    }
                 }
             }
             if(alterou)mudadas++
@@ -25,16 +33,21 @@ export function alteracao(context,q){
         return {acerto:`${mudadas} itens alterados na tabela ${q.tabela}`}
     }else{
         let mudadas=0
-        const lista=estado.map(obj=>{
+        const lista=[]
+        for(let obj of estado){
             const objeto=obj
             for(let campo of campos){
-                if(q[campo[0]]&&objeto[campo[0]]!=q[campo[0]]){
+                if(!q[campo[0]])continue
+                const erro=checarInvalidadeColuna(referencia,campo,q)
+                if(!erro){
                     objeto[campo[0]]=q[campo[0]]
+                }else{
+                    return {erro}
                 }
             }
             mudadas++
-            return objeto
-        })
+            lista.push(objeto)
+        }
         setar(lista)
         return {acerto:`${mudadas} itens alterados na tabela ${q.tabela}`}
     }
