@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import Tabela from './banco/Tabela'
-import Escolha from './querys/Escolha';
-import { querySelect } from './Acoes';
+import Tabela from '../banco/Tabela'
+import Escolha from './Escolha';
+import { querySelect, transf } from '../Acoes';
 const fraseSemLinhas='Não existem linhas de tabela com essas condições'
 const fraseAviso='Sem filtro, todas as linhas serão '
 export default function Query({context}){
@@ -12,7 +12,6 @@ export default function Query({context}){
     const tabelas=['cidades','pessoas','casas','carros',]
     const [q,setQ]=useState({tabela:'pessoas'})
     const [campos,setCampos]=useState([['nome',2],])
-
     const [texto, setTexto] = useState('');
     const [lista,setLista]=useState([])
     const [alterando,setAlterando]=useState(true)
@@ -47,7 +46,7 @@ export default function Query({context}){
         setQ({tabela:q.tabela})
     }
     useEffect(()=>{
-        setCampos(referencia[q.tabela].campos)
+        setCampos(referencia[transf(q.tabela)].campos)
         let t=''
 
         if(choseQ==1){
@@ -129,7 +128,7 @@ export default function Query({context}){
             :<></>}
             <QueryFinal>
                 <button style={{top:'8px',fontWeight:700,backgroundColor:'#1e870e',color:'white'}} onClick={()=>{if(alterando){executar()}setAlterando(!alterando)}}>
-                    {alterando?'Executar':'Nova Busca'}
+                    {alterando?'Executar':'Nova Query'}
                 </button>
                 <h1>Query Final:</h1>
                 <h2>{texto}</h2>
@@ -183,11 +182,14 @@ margin:0;font-size:20px;
 }
 `
 
-const Tudo=styled.div`position:relative;
+const Tudo=styled.div`
+width:calc(100% - 400px);
+position:relative;
 padding:10px 0 10px 0;
 height:calc(100% - 30px);
 background-color:#cee5db;border-radius:15px;
 flex-direction:column;
+box-sizing:border-box;
 justify-content:space-between;
 align-items:center;
 `

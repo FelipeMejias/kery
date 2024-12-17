@@ -1,35 +1,51 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import Tabela from './Tabela'
+import { nomeFixas, transf } from '../Acoes'
+
 export default function Banco({context}){
-    const {cidades,pessoas,casas,carros}=context
+    const {setPagina,referencia}=context
     return(
     <Tudo>
-        <Holder>
-            <Tabela nome={'cidades'} campos={[['nome',2]]} lista={cidades}/>
+        <Holder style={{position:'sticky',margin:0,top:'0px',minHeight:'100px'}}>
+            <Trocar onClick={()=>{setPagina(2)}}>Mudar Banco</Trocar>
         </Holder>
+        {nomeFixas.map(tabela=>{
+        const {estado,campos}=referencia[transf(tabela)]
+        return(
         <Holder>
-            <Tabela nome={'pessoas'} campos={[['nome',2]]} lista={pessoas}/>
+            <Tabela nome={tabela} campos={campos} lista={estado}/>
         </Holder>
-        <Holder>
-            <Tabela nome={'casas'} campos={[['idCidade',1],['idPessoa',1],['valor',3]]} lista={casas}/>
-        </Holder>
-        <Holder>
-            <Tabela nome={'carros'} campos={[['idPessoa',1],['valor',3]]} lista={carros}/>
-        </Holder>
+        )})}
     </Tudo>
 )}
+const Trocar=styled.article`cursor:pointer;
+display:flex;
+color:white;font-size:18px;
+flex-direction:column;
+justify-content:center;line-height:18px;
+background-color:#497c65;
+width:120px;height:70px;
+border-radius:15px;
+
+ion-icon{font-size:30px;margin-bottom:5px;}
+`
 const Holder=styled.section`
+background:#CEE5DB;
 display:flex;margin:10px 0 10px 0;
-justify-content:space-evenly
+width:100%;
+justify-content:space-evenly;
+align-items:center;
 `
 const Tudo=styled.div`
+position:relative;
+width:350px;
 div{align-items:center}
-padding:10px 0 10px 0;
+padding:0px 0 10px 0;
 flex-direction:column;
 height:calc(100% - 30px);
 background-color:#cee5db;border-radius:15px;
-
+box-sizing:border-box;
 overflow:hidden;overflow-y:scroll;
 
 `

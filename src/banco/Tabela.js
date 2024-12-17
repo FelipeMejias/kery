@@ -36,12 +36,11 @@ width:100%;margin-bottom:15px;
 const Topo=styled.div`
 flex-direction:column;
 color:white;width:100%;
-h1{font-size:20px;}
+h1{font-size:24px;margin:12px}
 `
 const Tudo=styled.div`
 flex-direction:column;
 background-color:#157ebf;
-height:${props=>props.alt}px;
-border-radius:10px;padding:0 5px 10px 5px;
+border-radius:10px;padding:0 5px 0px 5px;
 margin:0 10px 0 10px;
 `

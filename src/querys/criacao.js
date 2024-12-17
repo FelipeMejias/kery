@@ -1,7 +1,8 @@
-import { checarInvalidadeColuna } from "./utils"
+import { checarInvalidadeColuna, transf } from "../Acoes"
 export function criacao(context,q){
     const {referencia}=context
-    const {campos,estado,setar}=referencia[q.tabela]
+    const nomeTransf=transf(q.tabela)
+    const {campos,estado,setar}=referencia[nomeTransf]
     const objeto={}
     for(let campo of campos){
         if(!q[campo[0]])continue
@@ -12,7 +13,9 @@ export function criacao(context,q){
             return {erro}
         }
     }
-    const id=estado[estado.length-1].id+1
-    setar([...estado,{...objeto,id}])
+    const id=estado.length==0?1:estado[estado.length-1].id+1
+    const lista=[...estado,{...objeto,id}]
+    setar(lista)
+    localStorage.setItem(nomeTransf, JSON.stringify(lista))
     return {acerto:`Item inserido na tabela ${q.tabela}`}
 }

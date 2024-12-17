@@ -1,8 +1,9 @@
-import { determinarCondicao, separarFiltro } from "./utils"
+import { determinarCondicao, separarFiltro, transf } from "../Acoes"
 
 export function delecao(context,q){
     const {referencia}=context
-    const {campos,estado,setar}=referencia[q.tabela]
+    const nomeTransf=transf(q.tabela)
+    const {campos,estado,setar}=referencia[nomeTransf]
     if(q.filtrar){
         const {inicio,sinal,final}=separarFiltro(q.filtrar)
         if(!Object.keys(estado[0]).includes(inicio))return {erro:'A coluna do FILTRO não existe na tabela'}
@@ -17,9 +18,11 @@ export function delecao(context,q){
             }
         })
         setar(lista)
+        localStorage.setItem(nomeTransf, JSON.stringify(lista))
         return {acerto:`${mudadas} itens deletados na tabela ${q.tabela}`}
     }else{
         setar([])
+        localStorage.setItem(nomeTransf, JSON.stringify([]))
         return {acerto:`${estado.length} itens deletados na tabela ${q.tabela}`}
     }
 }
