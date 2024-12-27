@@ -1,12 +1,12 @@
 import { checarInvalidadeColuna, transf } from "../Acoes"
 export function criacao(context,q){
-    const {referencia}=context
-    const nomeTransf=transf(q.tabela)
+    const {referencia,tabelas}=context
+    const nomeTransf=transf(tabelas,q.tabela)
     const {campos,estado,setar}=referencia[nomeTransf]
     const objeto={}
     for(let campo of campos){
         if(!q[campo[0]])continue
-        const erro=checarInvalidadeColuna(referencia,campo,q)
+        const erro=checarInvalidadeColuna(tabelas,referencia,campo,q)
         if(!erro){
             objeto[campo[0]]=q[campo[0]]
         }else{

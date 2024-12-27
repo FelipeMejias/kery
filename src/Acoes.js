@@ -3,8 +3,6 @@ import { busca } from "./querys/busca";
 import { criacao } from "./querys/criacao";
 import { delecao } from "./querys/deletar";
 
-export const nomeFixas=['cidades','pessoas','casas','carros']
-
 export const tabela0Fixa=[
     {nome: 'Rio de Janeiro', id: 1},
     {nome: 'São Paulo', id: 2},
@@ -49,7 +47,12 @@ export const tabelasFixas=[
         campos:[['idPessoa',1],['valor',3]],
     },
 ]
-export function transf(nome){
+export function getNomes(tabelas){
+    return tabelas.map(tab=>tab.nome)
+}
+export function transf(tabelas,nome){
+    const nomeFixas=[]
+    for(let tab of tabelas)nomeFixas.push(tab.nome)
     const i=nomeFixas.indexOf(nome)
     return `tabela${i}`
 }
@@ -66,10 +69,12 @@ export function determinarCondicao(obj,inicio,sinal,final){
         return obj[inicio]<=final
     }
 }
-export function checarInvalidadeColuna(referencia,campo,q){
+export function checarInvalidadeColuna(tabelas,referencia,campo,q){
+    console.log(referencia,campo,q)
     if(campo[1]==1){
         const nomeTabela=campo[0].replace('id','').toLowerCase()+'s'
-        const estadoTabela=referencia[nomeTabela].estado
+        const NomeFinal=transf(tabelas,nomeTabela)
+        const estadoTabela=referencia[NomeFinal].estado
         for(let item of estadoTabela){
             if(item.id==q[campo[0]]){
                 return false

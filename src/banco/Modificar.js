@@ -1,18 +1,21 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import { criacaoInicial, criarLinhas, nomeFixas, transf } from '../Acoes'
+import { criacaoInicial, criarLinhas, transf } from '../Acoes'
 import TabelaAlt from './TabelaAlt'
 
 export default function Modificar({context}){
     const {
         referencia,
-        formacao,
+        formacao,tabelas,
         pagina,setPagina,
         choseG,setChoseG,
         choseQ,setChoseQ,
         fase,setFase,reload,setReload
     }=context
+    const nomeFixas=[]
+    for(let tab of tabelas)nomeFixas.push(tab.nome)
     function salvar(){
+        console.log(formacao)
         localStorage.setItem('tabelas', JSON.stringify(formacao));
         localStorage.setItem('tabela0', JSON.stringify([]));
         localStorage.setItem('tabela1', JSON.stringify([]));

@@ -12,7 +12,24 @@ export default function TabelaAlt({i,nome,campos,context}){
     }=context
     
     const [tex,setTex]=useState('')
-    function Adicionar(elNome=''){
+    const [texTabela,setTexTabela]=useState(nome)
+    function adicionarTab(){
+        if(!texTabela)return
+        const novaFormacao=[]
+        for(let k=0;k<formacao.length;k++){
+            const atual=formacao[k]
+            if(k!=iTabela){
+                novaFormacao.push(atual)
+            }else{
+                novaFormacao.push({...atual,
+                    nome:texTabela})
+            }
+        }
+        console.log(novaFormacao)
+        setFormacao(novaFormacao)
+        setiTabela(-1)
+    }
+    function adicionar(elNome=''){
         if(!tex && !elNome)return
         const novaFormacao=[]
         for(let k=0;k<formacao.length;k++){
@@ -55,7 +72,10 @@ export default function TabelaAlt({i,nome,campos,context}){
     return(
     <Tudo>
         <Topo>
-            <h1>{nome}</h1>
+            {i==iTabela&&fase==-1?<Change onClick={()=>setFase(-3)}><ion-icon name={'create'}/></Change>:<></>}
+            {i==iTabela&&fase==-3?<input placeholder={texTabela} value={texTabela} onChange={(e)=>setTexTabela(e.target.value)} />:<></>}
+            {i==iTabela&&fase==-3?<Campo onClick={()=>adicionarTab()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Salvar</h3></Campo>:<></>}
+            {i!=iTabela||fase!=-3?<h1>{nome}</h1>:<></>}
             <Campos>
                 <Campo c={'829099'}><h2>id</h2><ion-icon name={'key'}/></Campo>
                 {campos.map(c=>i==iTabela&&fase==-1?
@@ -76,13 +96,13 @@ export default function TabelaAlt({i,nome,campos,context}){
                 {i==iTabela&&fase==-2?<Campo onClick={()=>setFase(3)} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Número</h3></Campo>:<></>}
                 {i==iTabela&&fase==1?<h6>Clique na tabela da relação</h6>:<></>}
                 {i==iTabela&&fase>1?<input placeholder='Título da coluna' value={tex} onChange={(e)=>setTex(e.target.value)} />:<></>}
-                {i==iTabela&&fase>0?<Campo onClick={()=>Adicionar()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Salvar</h3></Campo>:<></>}
+                {i==iTabela&&fase>1?<Campo onClick={()=>adicionar()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Salvar</h3></Campo>:<></>}
             </Campos>
         </Topo>
         {i==iTabela?
         <></>
         :fase==1?
-        <Add onClick={()=>Adicionar(nome)}>Relacionar</Add>
+        <Add onClick={()=>adicionar(nome)}>Relacionar</Add>
         :<Add onClick={()=>setiTabela(i)}>Editar</Add>
         }
     </Tudo>
@@ -96,6 +116,18 @@ background-color:#${props=>props.c};
 margin:0 0px 10px 0px;padding:5px 10px 5px 10px;
 h2{font-size:18px;margin:0;font-weight:500;}
 h3{font-size:14px;margin:0;font-weight:300;}
+`
+const Change=styled.div`
+cursor:pointer;
+height:30px;
+background-color:white;
+color:black;
+width:30px;
+border-radius:50%;
+justify-content:center;;
+align-items:center;
+position:absolute;
+top:10px;right:10px;
 `
 const Add=styled.div`
 cursor:pointer;
@@ -120,8 +152,6 @@ align-items:center;
 width:200px;box-sizing:border-box;
 border-radius:5px;
 margin:0 0px 10px 0px;padding:5px 10px 5px 10px;
-h2{font-size:18px;margin:0;font-weight:500;}
-h3{font-size:14px;margin:0;font-weight:300;}
 }
 `
 const Holder=styled.div`background:;
@@ -139,6 +169,13 @@ const Topo=styled.div`
 flex-direction:column;
 color:white;width:100%;
 h1{font-size:24px;}
+input{
+justify-content:space-between;
+align-items:center;
+width:200px;box-sizing:border-box;
+border-radius:5px;
+margin:0 0px 10px 0px;padding:5px 10px 5px 10px;
+}
 `
 const Tudo=styled.div`
 position:relative;
@@ -154,4 +191,5 @@ color:yellow;
 width:200px;box-sizing:border-box;
 padding:5px 10px 5px 10px;
 font-size:14px;margin:0;font-weight:300;
+
 `

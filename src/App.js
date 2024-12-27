@@ -24,6 +24,7 @@ export default function App(){
     const [choseQ,setChoseQ]=useState(1)
     const [iTabela,setiTabela]=useState(-1)
     const [fase,setFase]=useState(-1)
+    const [naQuery,setNaQuery]=useState(true)
     const referencia={
         tabela0:{estado:t0,setar:setT0,campos:tabelas[0].campos},
         tabela1:{estado:t1,setar:setT1,campos:tabelas[1].campos},
@@ -31,7 +32,7 @@ export default function App(){
         tabela3:{estado:t3,setar:setT3,campos:tabelas[3].campos},
     }
 
-    const context={reload,setReload,fase,setFase,formacao,setFormacao,iTabela,setiTabela,referencia,pagina,setPagina,choseG,setChoseG,choseQ,setChoseQ,}
+    const context={naQuery,setNaQuery,tabelas,reload,setReload,fase,setFase,formacao,setFormacao,iTabela,setiTabela,referencia,pagina,setPagina,choseG,setChoseG,choseQ,setChoseQ,}
     
     return(<div className="App">{
     pagina==1?
@@ -40,7 +41,6 @@ export default function App(){
             <Query context={context}/>
         </Tudo>:
         <Tudo>
-            
             <Modificar context={context} />
         </Tudo>
 }</div>)}

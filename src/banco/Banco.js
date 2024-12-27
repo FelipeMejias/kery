@@ -1,17 +1,20 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import Tabela from './Tabela'
-import { nomeFixas, transf } from '../Acoes'
+import { transf } from '../Acoes'
 
 export default function Banco({context}){
-    const {setPagina,referencia}=context
+    const {setPagina,referencia,tabelas,naQuery,setNaQuery}=context
+    const nomeFixas=[]
+    for(let tab of tabelas)nomeFixas.push(tab.nome)
     return(
-    <Tudo>
+    <Tudo naQuery={naQuery}>
         <Holder style={{position:'sticky',margin:0,top:'0px',minHeight:'100px'}}>
             <Trocar onClick={()=>{setPagina(2)}}>Mudar Banco</Trocar>
+            <Trocar onClick={()=>{setNaQuery(true)}}>Fazer Query</Trocar>
         </Holder>
         {nomeFixas.map(tabela=>{
-        const {estado,campos}=referencia[transf(tabela)]
+        const {estado,campos}=referencia[transf(tabelas,tabela)]
         return(
         <Holder>
             <Tabela nome={tabela} campos={campos} lista={estado}/>
@@ -25,7 +28,7 @@ color:white;font-size:18px;
 flex-direction:column;
 justify-content:center;line-height:18px;
 background-color:#497c65;
-width:120px;height:70px;
+width:120px;height:50px;
 border-radius:15px;
 
 ion-icon{font-size:30px;margin-bottom:5px;}
@@ -37,7 +40,8 @@ width:100%;
 justify-content:space-evenly;
 align-items:center;
 `
-const Tudo=styled.div`
+const Tudo=styled.article`
+display:flex;
 position:relative;
 width:350px;
 div{align-items:center}
@@ -47,5 +51,8 @@ height:calc(100% - 30px);
 background-color:#cee5db;border-radius:15px;
 box-sizing:border-box;
 overflow:hidden;overflow-y:scroll;
-
+@media(max-width:800px){
+width:90%;
+display:${p=>p.naQuery?'none':''}
+}
 `

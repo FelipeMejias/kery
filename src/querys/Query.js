@@ -2,22 +2,21 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import Tabela from '../banco/Tabela'
 import Escolha from './Escolha';
-import { querySelect, transf } from '../Acoes';
+import { getNomes, querySelect, transf } from '../Acoes';
 const fraseSemLinhas='Não existem linhas de tabela com essas condições'
 const fraseAviso='Sem filtro, todas as linhas serão '
 export default function Query({context}){
-    const {cidades,pessoas,casas,carros,
-        setChoseQ,choseQ,referencia
+    const {naQuery,setNaQuery,
+        setChoseQ,choseQ,referencia,tabelas
     }=context
-    const tabelas=['cidades','pessoas','casas','carros',]
-    const [q,setQ]=useState({tabela:'pessoas'})
-    const [campos,setCampos]=useState([['nome',2],])
+    const [q,setQ]=useState({tabela:tabelas[0].nome})
+    const [campos,setCampos]=useState([])
     const [texto, setTexto] = useState('');
     const [lista,setLista]=useState([])
     const [alterando,setAlterando]=useState(true)
     const [erro,setErro]=useState('')
     const [acerto,setAcerto]=useState('')
-    
+    const nomes=getNomes(tabelas)
     
     const [copiado, setCopiado] = useState(false);
     function copiarTexto(){
@@ -46,7 +45,7 @@ export default function Query({context}){
         setQ({tabela:q.tabela})
     }
     useEffect(()=>{
-        setCampos(referencia[transf(q.tabela)].campos)
+        setCampos(referencia[transf(tabelas,q.tabela)].campos)
         let t=''
 
         if(choseQ==1){
@@ -94,7 +93,7 @@ export default function Query({context}){
     },[q,choseQ])
     
     return(
-    <Tudo>
+    <Tudo naQuery={naQuery}>
         <Holder>
             <Botao selec={choseQ==1} onClick={()=>setarChose(1)}>Buscar</Botao>
             <Botao selec={choseQ==2} onClick={()=>setarChose(2)}>Criar</Botao>
@@ -105,24 +104,24 @@ export default function Query({context}){
             {alterando?
             choseQ==1?
                 <Alterar>
-                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={['cidades','pessoas','casas','carros']} />
+                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={nomes} />
                     <Escolha titulo={'filtrar'} q={q} setQ={setQ} opcoes={'Condição do filtro'} />
                     <Escolha titulo={'ordenar'} q={q} setQ={setQ} opcoes={'Coluna que indica a ordenação'} />
                 </Alterar>
             :choseQ==2?
                 <Alterar>
-                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={['cidades','pessoas','casas','carros']} />
+                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={nomes} />
                     {campos.map(campo=><Escolha cor={true}  titulo={campo[0]} q={q} setQ={setQ} opcoes={''} />)}
                 </Alterar>
             :choseQ==3?
                 <Alterar>
-                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={['cidades','pessoas','casas','carros']} />
+                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={nomes} />
                     {campos.map(campo=><Escolha cor={true}  titulo={campo[0]} q={q} setQ={setQ} opcoes={''} />)}
                     <Escolha aviso={fraseAviso+'alteradas'} titulo={'filtrar'} q={q} setQ={setQ} opcoes={'Condição do filtro'} />
                 </Alterar>
             :
                 <Alterar>
-                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={['cidades','pessoas','casas','carros']} />
+                    <Escolha titulo={'tabela'} q={q} setQ={setQ} opcoes={nomes} />
                     <Escolha aviso={fraseAviso+'deletadas'}  titulo={'filtrar'} q={q} setQ={setQ} opcoes={'Condição do filtro'} />
                 </Alterar>
             :<></>}
@@ -135,6 +134,9 @@ export default function Query({context}){
                 <button  style={{bottom:'8px',backgroundColor:'#bbf7b2'}} onClick={copiarTexto}>
                 {copiado ? 'Texto copiado!' : 'Copiar Texto'}
                 </button>
+                <Sumido   onClick={()=>setNaQuery(false)}>
+                <p>Ver banco</p>
+                </Sumido>
             </QueryFinal>
             {alterando?<></>:<Quadro>
                 {erro||acerto?<h4 style={{color:acerto?'#00f700':erro==fraseSemLinhas?'white':'yellow'}}>{erro||acerto}</h4>:<Tabela nome={'Resultado'} campos={campos} lista={lista}/>}
@@ -170,6 +172,17 @@ border:0;padding:7px;font-size:16px;position:absolute;
 right:8px;
 }
 `
+const Sumido=styled.article`
+width:140px;display:flex;
+border-radius:10px;;cursor:pointer;
+border:0;font-size:16px;position:absolute;
+right:156px;color:white;
+bottom:8px;background:#157EBF;
+justify-content:center;
+p{
+margin:0;padding:7px;
+}
+`
 const Quadro=styled.div`
 margin-top:20px;
 flex-direction:column;
@@ -182,7 +195,7 @@ margin:0;font-size:20px;
 }
 `
 
-const Tudo=styled.div`
+const Tudo=styled.article`display:flex;
 width:calc(100% - 400px);
 position:relative;
 padding:10px 0 10px 0;
@@ -192,6 +205,10 @@ flex-direction:column;
 box-sizing:border-box;
 justify-content:space-between;
 align-items:center;
+@media(max-width:800px){
+width:90%;
+display:${p=>p.naQuery?'':'none'}
+}
 `
 const Botao=styled.div`font-size:20px;
 align-items:center;

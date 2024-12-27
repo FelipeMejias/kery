@@ -1,8 +1,8 @@
 import { determinarCondicao, separarFiltro, transf } from "../Acoes"
 
 export function delecao(context,q){
-    const {referencia}=context
-    const nomeTransf=transf(q.tabela)
+    const {referencia,tabelas}=context
+    const nomeTransf=transf(tabelas,q.tabela)
     const {campos,estado,setar}=referencia[nomeTransf]
     if(q.filtrar){
         const {inicio,sinal,final}=separarFiltro(q.filtrar)

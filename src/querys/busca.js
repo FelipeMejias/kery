@@ -1,8 +1,9 @@
 import { determinarCondicao, separarFiltro, transf } from "../Acoes"
 
 export function busca(context,q){
-    const nomeTransf=transf(q.tabela)
-    let resposta=context.referencia[nomeTransf].estado
+    const {referencia,tabelas}=context
+    const nomeTransf=transf(tabelas,q.tabela)
+    let resposta=referencia[nomeTransf].estado
     if(resposta.length==0)return{erro:'Esta tabela está vazia'}
     if(q.filtrar){
         const {inicio,sinal,final}=separarFiltro(q.filtrar)
