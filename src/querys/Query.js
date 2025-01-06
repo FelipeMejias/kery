@@ -182,6 +182,9 @@ justify-content:center;
 p{
 margin:0;padding:7px;
 }
+@media(min-width:800px){
+display:none;
+}
 `
 const Quadro=styled.div`
 margin-top:20px;

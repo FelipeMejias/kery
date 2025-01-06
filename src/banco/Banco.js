@@ -11,7 +11,7 @@ export default function Banco({context}){
     <Tudo naQuery={naQuery}>
         <Holder style={{position:'sticky',margin:0,top:'0px',minHeight:'100px'}}>
             <Trocar onClick={()=>{setPagina(2)}}>Mudar Banco</Trocar>
-            <Trocar onClick={()=>{setNaQuery(true)}}>Fazer Query</Trocar>
+            <Fazer onClick={()=>{setNaQuery(true)}}>Fazer Query</Fazer>
         </Holder>
         {nomeFixas.map(tabela=>{
         const {estado,campos}=referencia[transf(tabelas,tabela)]
@@ -32,6 +32,20 @@ width:120px;height:50px;
 border-radius:15px;
 
 ion-icon{font-size:30px;margin-bottom:5px;}
+`
+const Fazer=styled.article`cursor:pointer;
+display:flex;
+color:black;font-size:18px;
+flex-direction:column;
+justify-content:center;line-height:18px;
+background-color:#62E54E;
+width:120px;height:50px;
+border-radius:15px;
+
+ion-icon{font-size:30px;margin-bottom:5px;}
+@media(min-width:800px){
+display:none
+}
 `
 const Holder=styled.section`
 background:#CEE5DB;

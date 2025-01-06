@@ -25,9 +25,8 @@ export default function TabelaAlt({i,nome,campos,context}){
                     nome:texTabela})
             }
         }
-        console.log(novaFormacao)
         setFormacao(novaFormacao)
-        setiTabela(-1)
+        setFase(-1)
     }
     function adicionar(elNome=''){
         if(!tex && !elNome)return
@@ -46,7 +45,7 @@ export default function TabelaAlt({i,nome,campos,context}){
             }
         }
         setFormacao(novaFormacao)
-        setiTabela(-1)
+        setFase(-1)
     }
     function apagar(campo){
         const novaFormacao=[]
@@ -66,16 +65,23 @@ export default function TabelaAlt({i,nome,campos,context}){
             }
         }
         setFormacao(novaFormacao)
-        setiTabela(-1)
+        setFase(-1)
     }
     useEffect(()=>{setFase(-1);setTex('')},[iTabela])
+    function podeRelacionar(elNome){
+        const nomeOf='id'+ elNome.charAt(0).toUpperCase() + elNome.slice(1,elNome.length-1)
+        for(let kamp of formacao[iTabela].campos){
+            if(kamp[0]==nomeOf) return false
+        }
+        return true
+    }
     return(
     <Tudo>
         <Topo>
             {i==iTabela&&fase==-1?<Change onClick={()=>setFase(-3)}><ion-icon name={'create'}/></Change>:<></>}
             {i==iTabela&&fase==-3?<input placeholder={texTabela} value={texTabela} onChange={(e)=>setTexTabela(e.target.value)} />:<></>}
-            {i==iTabela&&fase==-3?<Campo onClick={()=>adicionarTab()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Salvar</h3></Campo>:<></>}
-            {i!=iTabela||fase!=-3?<h1>{nome}</h1>:<></>}
+            {i==iTabela&&fase==-3?<Campo onClick={()=>adicionarTab()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>OK</h3></Campo>:<></>}
+            {i!=iTabela||fase!=-3?<h1>{texTabela}</h1>:<></>}
             <Campos>
                 <Campo c={'829099'}><h2>id</h2><ion-icon name={'key'}/></Campo>
                 {campos.map(c=>i==iTabela&&fase==-1?
@@ -96,13 +102,13 @@ export default function TabelaAlt({i,nome,campos,context}){
                 {i==iTabela&&fase==-2?<Campo onClick={()=>setFase(3)} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Número</h3></Campo>:<></>}
                 {i==iTabela&&fase==1?<h6>Clique na tabela da relação</h6>:<></>}
                 {i==iTabela&&fase>1?<input placeholder='Título da coluna' value={tex} onChange={(e)=>setTex(e.target.value)} />:<></>}
-                {i==iTabela&&fase>1?<Campo onClick={()=>adicionar()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>Salvar</h3></Campo>:<></>}
+                {i==iTabela&&fase>1?<Campo onClick={()=>adicionar()} c={'62E54E'} style={{color:'black',justifyContent:'center',cursor:'pointer'}}><h3>OK</h3></Campo>:<></>}
             </Campos>
         </Topo>
         {i==iTabela?
         <></>
         :fase==1?
-        <Add onClick={()=>adicionar(nome)}>Relacionar</Add>
+        (podeRelacionar(texTabela)?<Add onClick={()=>adicionar(texTabela)}>Relacionar</Add>:<></>)
         :<Add onClick={()=>setiTabela(i)}>Editar</Add>
         }
     </Tudo>
